@@ -6,13 +6,13 @@ metadata:
     argocd.argoproj.io/sync-options: PruneLast=true
     argocd.argoproj.io/sync-wave: "-2"
   creationTimestamp: null
-  name: production
+  name: dev
   namespace: argocd
 spec:
   clusterResourceWhitelist:
   - group: '*'
     kind: '*'
-  description: production project
+  description: dev project
   destinations:
   - namespace: '*'
     server: '*'
