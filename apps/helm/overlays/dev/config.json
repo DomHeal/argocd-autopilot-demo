@@ -1,1 +1,0 @@
-{"appName":"helm","userGivenName":"helm","destNamespace":"default","destServer":"https://kubernetes.default.svc","srcPath":"apps/helm/overlays/dev","srcRepoURL":"https://github.com/DomHeal/argocd-autopilot-demo.git","srcTargetRevision":"","labels":null}
