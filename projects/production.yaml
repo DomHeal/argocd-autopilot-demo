@@ -71,7 +71,7 @@ spec:
       labels:
         app.kubernetes.io/managed-by: argocd-autopilot
         app.kubernetes.io/name: '{{ appName }}'
-      name: testing-{{ userGivenName }}
+      name: production-{{ userGivenName }}
       namespace: argocd
     spec:
       destination:
@@ -82,7 +82,7 @@ spec:
         jsonPointers:
         - /status
         kind: Application
-      project: testing
+      project: production
       source:
         path: '{{ srcPath }}'
         repoURL: '{{ srcRepoURL }}'
