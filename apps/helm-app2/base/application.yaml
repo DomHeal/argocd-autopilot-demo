@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: Helm
+spec:
+  destination:
+    name: 'helm-dev'
+    namespace: helm
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: helm-dependency
+    repoURL: 'https://github.com/argoproj/argocd-example-apps/'
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+        - values.yaml
+  project: dev
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: false
+    syncOptions:
+      - CreateNamespace=true
