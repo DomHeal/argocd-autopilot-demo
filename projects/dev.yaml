@@ -24,72 +24,27 @@ spec:
 status: {}
 
 ---
+
 apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
+kind: Application
 metadata:
-  annotations:
-    argocd.argoproj.io/sync-wave: "0"
-  creationTimestamp: null
-  name: dev
-  namespace: argocd
+  name: helm
 spec:
-  generators:
-  - git:
-      files:
-      - path: apps/**/dev/config.json
-      repoURL: https://github.com/DomHeal/argocd-autopilot-demo.git
-      requeueAfterSeconds: 20
-      revision: ""
-      template:
-        metadata: {}
-        spec:
-          destination: {}
-          project: ""
-          source:
-            repoURL: ""
-  - git:
-      files:
-      - path: apps/**/dev/config_dir.json
-      repoURL: https://github.com/DomHeal/argocd-autopilot-demo.git
-      requeueAfterSeconds: 20
-      revision: ""
-      template:
-        metadata: {}
-        spec:
-          destination: {}
-          project: ""
-          source:
-            directory:
-              exclude: '{{ exclude }}'
-              include: '{{ include }}'
-              jsonnet: {}
-              recurse: true
-            repoURL: ""
-  syncPolicy: {}
-  template:
-    metadata:
-      labels:
-        app.kubernetes.io/managed-by: argocd-autopilot
-        app.kubernetes.io/name: '{{ appName }}'
-      name: dev-{{ userGivenName }}
-      namespace: argocd
-    spec:
-      destination:
-        namespace: '{{ destNamespace }}'
-        server: '{{ destServer }}'
-      ignoreDifferences:
-      - group: argoproj.io
-        jsonPointers:
-        - /status
-        kind: Application
-      project: dev
-      source:
-        path: '{{ srcPath }}'
-        repoURL: '{{ srcRepoURL }}'
-        targetRevision: '{{ srcTargetRevision }}'
-      syncPolicy:
-        automated:
-          allowEmpty: true
-          prune: true
-          selfHeal: true
-status: {}
+  destination:
+    name: ''
+    namespace: default
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: helm-dependency
+    repoURL: 'https://github.com/argoproj/argocd-example-apps'
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+        - values.yaml
+  project: dev
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: false
+    syncOptions:
+      - CreateNamespace=true
